@@ -1,0 +1,13 @@
+{
+  "data_asset_type": "Dataset",
+  "expectation_suite_name": "orders.count",
+  "expectations": [
+    {
+      "expectation_type": "expect_table_row_count_to_equal_other_table",
+      "kwargs": {
+        "other_table_name": "orders"
+      },
+      "meta": {}
+    }
+  ]
+}

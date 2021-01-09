@@ -1,0 +1,102 @@
+# Welcome to Great Expectations! Always know what to expect from your data.
+#
+# Here you can define datasources, batch kwargs generators, integrations and
+# more. This file is intended to be committed to your repo. For help with
+# configuration please:
+#   - Read our docs: https://docs.greatexpectations.io/en/latest/reference/data_context_reference.html#configuration
+#   - Join our slack channel: http://greatexpectations.io/slack
+
+# config_version refers to the syntactic version of this config file, and is used in maintaining backwards compatibility
+# It is auto-generated and usually does not need to be changed.
+config_version: 2.0
+
+# Datasources tell Great Expectations where your data lives and how to get it.
+# You can use the CLI command `great_expectations datasource new` to help you
+# add a new datasource. Read more at https://docs.greatexpectations.io/en/latest/features/datasource.html
+datasources:
+#  my_postgres_db:
+#    credentials:
+#      drivername: postgresql
+#      host: localhost
+#      port: '65432'
+#      username: ge_tutorials
+#      password: ge_tutorials
+#      database: ge_tutorials
+#    data_asset_type:
+#      module_name: great_expectations.dataset
+#      class_name: SqlAlchemyDataset
+#    class_name: SqlAlchemyDatasource
+#    module_name: great_expectations.datasource
+  # TODO: TEST WITH DOC great_expectations.dataset.sqlalchemy_dataset.snowflake
+  my_snowflake_db:
+    credentials:
+      drivername: snowflake
+      username: EDUARDO.HUERTA@RAPPI.COM
+      host: hg51401
+      database: FIVETRAN
+      query:
+        schema: cpgs_datascience_dev
+        warehouse: CPGS
+        role: CPG_DATASCIENCE_WRITE_ROLE
+      password: WFUOatZK9Zb4ykrts0UQn5wIxb9se0HS7Xn
+    data_asset_type:
+      module_name: great_expectations.dataset
+      class_name: SqlAlchemyDataset
+    class_name: SqlAlchemyDatasource
+    module_name: great_expectations.datasource
+
+
+config_variables_file_path: uncommitted/config_variables.yml
+
+# The plugins_directory will be added to your python path for custom modules
+# used to override and extend Great Expectations.
+plugins_directory: plugins/
+
+# Validation Operators are customizable workflows that bundle the validation of
+# one or more expectation suites and subsequent actions. The example below
+# stores validations and send a slack notification. To read more about
+# customizing and extending these, read: https://docs.greatexpectations.io/en/latest/features/validation_operators_and_actions.html
+validation_operators:
+  action_list_operator:
+    # To learn how to configure sending Slack notifications during evaluation
+    # (and other customizations), read: https://docs.greatexpectations.io/en/latest/reference/validation_operators/action_list_validation_operator.html
+    class_name: ActionListValidationOperator
+    action_list:
+    - name: store_validation_result
+      action:
+        class_name: StoreValidationResultAction
+
+stores:
+# Stores are configurable places to store things like Expectations, Validations
+# Data Docs, and more. These are for advanced users only - most users can simply
+# leave this section alone.
+#
+# Three stores are required: expectations, validations, and
+# evaluation_parameters, and must exist with a valid store entry. Additional
+# stores can be configured for uses such as data_docs, validation_operators, etc.
+  expectations_store:
+    class_name: ExpectationsStore
+    store_backend:
+      class_name: TupleFilesystemStoreBackend
+      base_directory: expectations/
+
+  validations_store:
+    class_name: ValidationsStore
+    store_backend:
+      class_name: TupleFilesystemStoreBackend
+      base_directory: uncommitted/validations/
+
+  evaluation_parameter_store:
+    # Evaluation Parameters enable dynamic expectations. Read more here:
+    # https://docs.greatexpectations.io/en/latest/reference/evaluation_parameters.html
+    class_name: EvaluationParameterStore
+
+expectations_store_name: expectations_store
+validations_store_name: validations_store
+evaluation_parameter_store_name: evaluation_parameter_store
+
+notebooks:
+anonymous_usage_statistics:
+  data_context_id: 349a4d24-a684-4258-aefe-fe93823cd473
+  enabled: true
+data_docs_sites:
